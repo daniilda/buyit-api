@@ -3,11 +3,12 @@
 ///////////////////////////////////////////////////////
 // Application services/DI Container configures ///////
 ///////////////////////////////////////////////////////
-using ToxiCode.BuyIt.Api.DataLayer.Extensions;
-using ToxiCode.BuyIt.Api.Infrastructure;
-using ToxiCode.BuyIt.Api.Infrastructure.Extensions;
-using ToxiCode.BuyIt.Api.TelegramLayer;
+using System.Text.Json.Serialization;
+using MediatR;
 using Serilog;
+using ToxiCode.BuyIt.Api.Common;
+using ToxiCode.BuyIt.Api.DataLayer.Extensions;
+using ToxiCode.BuyIt.Api.Migrations;
 
 var builder = WebApplication
     .CreateBuilder(args)
@@ -15,21 +16,22 @@ var builder = WebApplication
 builder.Host.UseSerilog();
 var services = builder.Services;
 
-services
+services.AddMediatR(typeof(Program))
     .AddControllers()
-    .AddNewtonsoftJson();
+    .AddNewtonsoftJson()
+    .AddJsonOptions(opt => opt
+        .JsonSerializerOptions
+        .Converters
+        .Add(new JsonStringEnumConverter()));
 
 services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
-    .AddSerilogLogger();
+    .AddSerilogLogger()
+    .AddAutoMapper(typeof(Program));
 
 services
     .AddDatabaseInfrastructure(builder.Configuration);
-
-services
-    .TryAddAllOptions(builder.Configuration)
-    .AddTelegramBot();
 
 services
     .AddHttpContextAccessor()
@@ -45,10 +47,13 @@ services
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseAuthorization();
+app.UseAuthorization(); 
 app.MapControllers();
-app.Migrate();
-app.Run();
-
+if (args.FirstOrDefault() == "migrate")
+{
+    app.Migrate();
+    return;
+}
+await app.RunAsync();
 
 #endregion
