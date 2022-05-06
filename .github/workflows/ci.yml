@@ -8,4 +8,4 @@ jobs:
   dotnet-flow:
     runs-on: ubuntu-latest
     steps:
-      - uses: mToxicCode/.github/workflow-templates/dotnet-service-ci.yml
+      - uses: mToxicCode/.github/workflow-templates/dotnet-service-ci.yml@latest
