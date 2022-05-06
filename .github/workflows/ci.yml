@@ -6,4 +6,4 @@ on:
 
 jobs:
   dotnet-flow:
-    uses: mToxicCode/.github/workflows/dotnet-service-ci.yml
+    uses: mToxicCode/.github/workflows/dotnet-service-ci.yml@master
