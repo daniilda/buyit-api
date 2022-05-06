@@ -6,6 +6,4 @@ on:
 
 jobs:
   dotnet-flow:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: mToxicCode/.github/workflows/dotnet-service-ci.yml@master
+    uses: mToxicCode/.github/workflows/dotnet-service-ci.yml
