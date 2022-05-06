@@ -54,14 +54,16 @@ public class ItemsRepository : IRepository
         const string getItemsBaseQuery = @"SELECT it.id, 
                                               it.name, 
                                               it.description, 
-                                              it.created_at CreatedAt
+                                              it.created_at CreatedAt,
+                                              it.owner OwnerId,
+                                              it.price
                                            FROM items it ";
         
         const string getPaginationInfoBaseQuery =  @"SELECT COUNT(1) Amount
                                                      FROM items it ";
         
         // Ходить в репозиторий?
-        const string getItemsPicturesQuery = @"SELECT i.url, i.description
+        const string getItemsPicturesQuery = @"SELECT i.url, i.description, i.id, i.file_name FileName
                                                FROM items_images im 
                                                INNER JOIN images i ON i.id = im.image_id
                                                WHERE im.item_id = @Id;";

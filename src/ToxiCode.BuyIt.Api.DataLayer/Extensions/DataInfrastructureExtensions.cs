@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ToxiCode.BuyIt.Api.DataLayer.Repositories.Items;
 using ToxiCode.BuyIt.Api.DataLayer.Repositories.Pictures;
+using ToxiCode.BuyIt.Api.DataLayer.Repositories.Reviews;
 using ToxiCode.BuyIt.Api.Migrations;
 
 namespace ToxiCode.BuyIt.Api.DataLayer.Extensions
@@ -19,6 +20,7 @@ namespace ToxiCode.BuyIt.Api.DataLayer.Extensions
         private static IServiceCollection AddRepositories(this IServiceCollection services)
             => services
                 .AddScoped<ItemsRepository>()
-                .AddScoped<PicturesRepository>();
+                .AddScoped<PicturesRepository>()
+                .AddScoped<ReviewsRepository>();
     }
 }

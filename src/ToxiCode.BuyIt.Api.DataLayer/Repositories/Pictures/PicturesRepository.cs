@@ -33,7 +33,7 @@ public class PicturesRepository : IRepository
 
     public async Task InsertPicturesForItemAsync(InsertPicturesForItemCmd cmd, CancellationToken cancellationToken)
     {
-        const string insertPicturesForItemQuery = @"INSERT INTO images_item
+        const string insertPicturesForItemQuery = @"INSERT INTO items_images
                                                          (item_id, image_id)
                                                      VALUES (@ItemId, @ImageId)";
 
@@ -50,8 +50,8 @@ public class PicturesRepository : IRepository
 
     public async Task UpdatePicturesForItemAsync(UpdatePicturesForItemCmd cmd, CancellationToken cancellationToken)
     {
-        const string deleteOldPicturesForItemQuery = @"DELETE FROM image_item WHERE item_id = @ItemId";
-        const string insertPicturesForItemQuery = @"INSERT INTO images_item
+        const string deleteOldPicturesForItemQuery = @"DELETE FROM items_images WHERE item_id = @ItemId";
+        const string insertPicturesForItemQuery = @"INSERT INTO items_images
                                                          (item_id, image_id)
                                                      VALUES (@ItemId, @ImageId)";
         

@@ -4,13 +4,13 @@ using ToxiCode.BuyIt.Api.DataLayer.Repositories.Pictures.Cmds.InsertPictures;
 using ToxiCode.BuyIt.Api.Dtos;
 using ToxiCode.BuyIt.Api.Handlers.Pictures.AddPictures.Dtos;
 
-namespace ToxiCode.BuyIt.Api.Handlers.Pictures.AddPictures;
+namespace ToxiCode.BuyIt.Api.Handlers.Pictures.UploadPictures;
 
-public class AddPicturesHandler : IRequestHandler<AddPicturesCommand, AddPicturesResponse>
+public class UploadPicturesHandler : IRequestHandler<AddPicturesCommand, AddPicturesResponse>
 {
     private readonly PicturesRepository _repository;
 
-    public AddPicturesHandler(PicturesRepository repository) 
+    public UploadPicturesHandler(PicturesRepository repository) 
         => _repository = repository;
 
     public async Task<AddPicturesResponse> Handle(AddPicturesCommand request, CancellationToken cancellationToken)

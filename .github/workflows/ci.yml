@@ -1,0 +1,11 @@
+name: Publish Nuget Package
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  dotnet-flow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/workflow-templates/dotnet-service-ci.yml

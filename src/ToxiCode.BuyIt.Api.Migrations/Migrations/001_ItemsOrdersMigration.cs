@@ -16,8 +16,7 @@ public class ItemsOrdersMigration : ForwardOnlyMigration
             .WithColumn("url").AsString(512).NotNullable()
             .WithColumn("created_at").AsDateTime().WithDefault(SystemMethods.CurrentUTCDateTime)
             .WithColumn("deleted_at").AsDateTime().Nullable();
-        
-        MigrateUsers();
+         
         MigrateItems();
         MigrateReviews();
         MigrateProperties();
@@ -31,7 +30,7 @@ public class ItemsOrdersMigration : ForwardOnlyMigration
             .WithColumn("description").AsString().NotNullable()
             .WithColumn("price").AsDecimal().NotNullable()
             .WithColumn("owner").AsGuid().ForeignKey("users", "id").NotNullable()
-            .WithColumn("created_at").AsDateTime().NotNullable()
+            .WithColumn("created_at").AsDateTime().WithDefault(SystemMethods.CurrentDateTime)
             .WithColumn("last_updated").AsDateTime().Nullable()
             .WithColumn("deleted_at").AsDateTime().Nullable();
 
@@ -48,7 +47,7 @@ public class ItemsOrdersMigration : ForwardOnlyMigration
             .WithColumn("review_text_cons").AsString().Nullable()
             .WithColumn("review_text_pros").AsString().Nullable()
             .WithColumn("review_text_commentary").AsString().Nullable()
-            .WithColumn("user_id").AsGuid().ForeignKey("users", "id").NotNullable()
+            .WithColumn("user_id").AsGuid().NotNullable()
             .WithColumn("item_id").AsInt64().ForeignKey("items", "id").NotNullable()
             .WithColumn("created_at").AsDateTime().WithDefault(SystemMethods.CurrentUTCDateTime);
     }
@@ -71,7 +70,7 @@ public class ItemsOrdersMigration : ForwardOnlyMigration
     {
         Create.Table("orders")
             .WithColumn("id").AsInt64().PrimaryKey()
-            .WithColumn("user_id").AsGuid().ForeignKey("users", "id").NotNullable();
+            .WithColumn("user_id").AsGuid().NotNullable();
         
         Execute.Sql("CREATE TYPE checkout_status AS ENUM('Created', 'Payed', 'Cancelled')");
 
@@ -82,15 +81,5 @@ public class ItemsOrdersMigration : ForwardOnlyMigration
             .WithColumn("created_at").AsDateTime().WithDefault(SystemMethods.CurrentUTCDateTime)
             .WithColumn("payed_at").AsDateTime().Nullable()
             .WithColumn("cancelled_at").AsDateTime().Nullable();
-    }
-    private void MigrateUsers()
-    {
-        Create.Table("users")
-            .WithColumn("id").AsGuid().PrimaryKey()
-            .WithColumn("username").AsString().Unique()
-            .WithColumn("name").AsString().NotNullable()
-            .WithColumn("image_id").AsGuid().ForeignKey("images", "id")
-            .WithColumn("created_at").AsDateTime().WithDefault(SystemMethods.CurrentUTCDateTime)
-            .WithColumn("last_updated").AsDateTime().Nullable();
     }
 }

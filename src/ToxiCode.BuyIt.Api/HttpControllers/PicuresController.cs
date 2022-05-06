@@ -14,6 +14,6 @@ public class PicturesController : ControllerBase
         => _mediator = mediator;
 
     [HttpPost]
-    public async Task<ActionResult<AddPicturesResponse>> AddPictures([FromForm] AddPicturesCommand command) 
+    public async Task<ActionResult<AddPicturesResponse>> UploadPictures([FromForm] AddPicturesCommand command) 
         => Ok(await _mediator.Send(command));
 }
