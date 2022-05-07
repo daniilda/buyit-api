@@ -1,5 +1,4 @@
-name: Publish Nuget Package
-
+name: CI Workflow
 on:
   push:
     branches: [ master ]

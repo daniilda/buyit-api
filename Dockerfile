@@ -8,7 +8,7 @@ WORKDIR /src
 COPY ["ToxiCode.BuyIt.Api/BuyIt.Api.csproj", "ToxiCode.BuyIt.Api/"]
 RUN dotnet restore "ToxiCode.BuyIt.Api/BuyIt.Api.csproj"
 COPY . .
-WORKDIR "/src/BuyIt.Api"
+WORKDIR "/src/ToxiCode.BuyIt.Api"
 RUN dotnet build "ToxiCode.BuyIt.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
