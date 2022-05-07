@@ -5,14 +5,12 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["ToxiCode.BuyIt.Api/ToxiCode.BuyIt.Api.csproj", "ToxiCode.BuyIt.Api/"]
-RUN dotnet restore "ToxiCode.BuyIt.Api/ToxiCode.BuyIt.Api.csproj"
-COPY . .
-WORKDIR "/src/ToxiCode.BuyIt.Api"
-RUN dotnet build "ToxiCode.BuyIt.Api.csproj" -c Release -o /app/build
+COPY . ./
+RUN dotnet restore "src/ToxiCode.BuyIt.Api/ToxiCode.BuyIt.Api.csproj"
+RUN dotnet build "src/ToxiCode.BuyIt.Api/ToxiCode.BuyIt.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ToxiCode.BuyIt.Api.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/ToxiCode.BuyIt.Api/ToxiCode.BuyIt.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
