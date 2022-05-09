@@ -17,6 +17,7 @@ FROM build AS publish
 RUN dotnet publish "src/ToxiCode.BuyIt.Api/ToxiCode.BuyIt.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
+ENV DOTNET_RUNNING_IN_CONTAINER=true
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ToxiCode.BuyIt.Api.dll"]
