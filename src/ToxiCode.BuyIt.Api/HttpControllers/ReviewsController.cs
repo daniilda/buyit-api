@@ -8,7 +8,7 @@ using ToxiCode.BuyIt.Api.Handlers.Reviews.GetReviewsByItemId.Dtos;
 namespace ToxiCode.BuyIt.Api.HttpControllers;
 
 [ApiController]
-[Route("v1/[controller]")]
+[Route("api/v1/[controller]")]
 public class ReviewsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -16,7 +16,7 @@ public class ReviewsController : ControllerBase
     public ReviewsController(IMediator mediator) 
         => _mediator = mediator;
 
-    [HttpGet("/{id:long}")]
+    [HttpGet("{id:long}")]
     public async Task<ActionResult> GetReview([FromRoute] long id)
     {
         var command = new GetReviewByIdCommand(id);

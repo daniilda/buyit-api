@@ -10,7 +10,7 @@ using ToxiCode.BuyIt.Api.Handlers.Items.UpdateItem.Dtos;
 namespace ToxiCode.BuyIt.Api.HttpControllers;
 
 [ApiController]
-[Route("v1/[controller]")]
+[Route("api/v1/[controller]")]
 public class ItemsController : ControllerBase
 {
     private readonly IMediator _mediator;

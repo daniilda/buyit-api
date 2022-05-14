@@ -5,7 +5,7 @@ using ToxiCode.BuyIt.Api.Handlers.Pictures.AddPictures.Dtos;
 namespace ToxiCode.BuyIt.Api.HttpControllers;
 
 [ApiController]
-[Route("v1/[controller]")]
+[Route("api/v1/[controller]")]
 public class PicturesController : ControllerBase
 {
     private readonly IMediator _mediator;

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ToxiCode.BuyIt.Api.HttpControllers;
 
 [ApiController]
-[Route("v1/[controller]")]
+[Route("api/v1/[controller]")]
 public class OrdersController : ControllerBase
 {
     private readonly IMediator _mediator;

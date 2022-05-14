@@ -23,7 +23,9 @@ public class ItemsRepository : IRepository
         const string getItemQuery = @"SELECT it.id, 
                                               it.name, 
                                               it.description, 
-                                              it.created_at CreatedAt
+                                              it.created_at CreatedAt,
+                                              it.owner OwnerId,
+                                              it.price
                                            FROM items it WHERE id = @Id";
 
         const string getItemPicturesQuery = @"SELECT i.url, i.description
