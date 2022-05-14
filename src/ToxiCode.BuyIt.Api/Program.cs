@@ -49,6 +49,10 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseAuthorization(); 
 app.MapControllers();
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 if (args.FirstOrDefault() == "migrate")
 {
     app.Migrate();
