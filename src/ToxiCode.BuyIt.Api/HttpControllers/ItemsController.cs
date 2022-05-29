@@ -5,7 +5,9 @@ using ToxiCode.BuyIt.Api.Handlers.Items.AddItem.Dtos;
 using ToxiCode.BuyIt.Api.Handlers.Items.DeleteItemById.Dtos;
 using ToxiCode.BuyIt.Api.Handlers.Items.GetItemById.Dtos;
 using ToxiCode.BuyIt.Api.Handlers.Items.GetItems.Dtos;
+using ToxiCode.BuyIt.Api.Handlers.Items.GetItemsById.Dtos;
 using ToxiCode.BuyIt.Api.Handlers.Items.UpdateItem.Dtos;
+using ToxiCode.BuyIt.Api.Platform;
 
 namespace ToxiCode.BuyIt.Api.HttpControllers;
 
@@ -26,8 +28,8 @@ public class ItemsController : ControllerBase
         return Ok(response);
     }
     
-    [HttpGet]
-    public async Task<ActionResult<GetItemsWithFilterResponse>> GetItems(
+    [HttpGet("with-filter")]
+    public async Task<ActionResult<GetItemsWithFilterResponse>> GetItemsWithFilter(
         [FromQuery] Filter? filter, 
         [FromQuery] Dtos.Pagination.Pagination? pagination, 
         [FromQuery] Sorting? sorting)
@@ -36,22 +38,29 @@ public class ItemsController : ControllerBase
         var response = await _mediator.Send(command);
         return Ok(response);
     }
-
+    
+    [HttpPatch]
+    public async Task<ActionResult<GetItemsByIdResponse>> GetItemsById([FromBody] GetItemsByIdCommand command) 
+        => Ok(await _mediator.Send(command));
+    
     [HttpPost]
+    [TokenAuthenticationFilter]
     public async Task<IActionResult> AddItem([FromBody] AddItemCommand command)
     {
         await _mediator.Send(command);
         return Ok();
     }
-
+    
     [HttpPut]
+    [TokenAuthenticationFilter]
     public async Task<IActionResult> UpdateItem([FromBody] UpdateItemCommand command)
     {
         await _mediator.Send(command);
         return Ok();
     }
-
+    
     [HttpDelete("{id:long}")]
+    [TokenAuthenticationFilter]
     public async Task<IActionResult> DeleteItem([FromRoute] long id)
     {
         var command = new DeleteItemByIdCommand(id);

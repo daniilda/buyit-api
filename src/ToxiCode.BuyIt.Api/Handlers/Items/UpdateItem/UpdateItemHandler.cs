@@ -1,9 +1,9 @@
 using AutoMapper;
 using MediatR;
+using ToxiCode.BuyIt.Api.DataLayer.Repositories.Images;
+using ToxiCode.BuyIt.Api.DataLayer.Repositories.Images.Cmds.UpdatePicturesForItem;
 using ToxiCode.BuyIt.Api.DataLayer.Repositories.Items;
 using ToxiCode.BuyIt.Api.DataLayer.Repositories.Items.Cmds.UpdateItems;
-using ToxiCode.BuyIt.Api.DataLayer.Repositories.Pictures;
-using ToxiCode.BuyIt.Api.DataLayer.Repositories.Pictures.Cmds.UpdatePicturesForItem;
 using ToxiCode.BuyIt.Api.Handlers.Items.UpdateItem.Dtos;
 
 namespace ToxiCode.BuyIt.Api.Handlers.Items.UpdateItem;
@@ -11,17 +11,17 @@ namespace ToxiCode.BuyIt.Api.Handlers.Items.UpdateItem;
 public class UpdateItemHandler : AsyncRequestHandler<UpdateItemCommand>
 {
     private readonly ItemsRepository _itemsRepository;
-    private readonly PicturesRepository _picturesRepository;
+    private readonly ImagesRepository _imagesRepository;
     private readonly IMapper _mapper;
 
 
     public UpdateItemHandler(
         ItemsRepository itemsRepository, 
-        PicturesRepository picturesRepository, 
+        ImagesRepository imagesRepository, 
         IMapper mapper)
     {
         _itemsRepository = itemsRepository;
-        _picturesRepository = picturesRepository;
+        _imagesRepository = imagesRepository;
         _mapper = mapper;
     }
 
@@ -31,6 +31,6 @@ public class UpdateItemHandler : AsyncRequestHandler<UpdateItemCommand>
         await _itemsRepository.UpdateItemsAsync(itemsCmd, cancellationToken);
 
         var picturesCmd = _mapper.Map<UpdatePicturesForItemCmd>(request);
-        await _picturesRepository.UpdatePicturesForItemAsync(picturesCmd, cancellationToken);
+        await _imagesRepository.UpdatePicturesForItemAsync(picturesCmd, cancellationToken);
     }
 }

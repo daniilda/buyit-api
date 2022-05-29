@@ -12,5 +12,5 @@ public class CreatedItemNotification
     
     public decimal Price { get; set; }
 
-    public IEnumerable<Image> Images { get; set; } = Array.Empty<Image>();
+    public IEnumerable<string> ImagesUrls { get; set; } = Array.Empty<string>();
 }
