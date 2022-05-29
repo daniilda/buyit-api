@@ -17,7 +17,9 @@ public class ReviewsRepository : IRepository
 
     public async Task<GetReviewCmdResponse> GetReviewAsync(GetReviewCmd cmd, CancellationToken cancellationToken)
     {
-        const string getReviewByIdQuery = @"SELECT rate AS Rating, 
+        const string getReviewByIdQuery = @"SELECT 
+                                            id,
+                                            rate AS Rating, 
                                             review_text_cons AS ReviewTextCons, 
                                             review_text_pros AS ReviewTextPros, 
                                             review_text_commentary AS Commentary, 
@@ -40,25 +42,23 @@ public class ReviewsRepository : IRepository
         GetReviewsByItemIdCmd cmd,
         CancellationToken cancellationToken)
     {
-        const string getReviewByIdQuery = @"SELECT rate AS Rating, 
-                                            review_text_cons AS ReviewTextCons, 
-                                            review_text_pros AS ReviewTextPros, 
-                                            review_text_commentary AS Commentary, 
-                                            user_id AS UserId
+        const string getReviewByIdQuery = @"SELECT id,
+                                            rate Rating, 
+                                            review_text_cons ReviewTextCons, 
+                                            review_text_pros ReviewTextPros, 
+                                            review_text_commentary Commentary, 
+                                            user_id UserId
                                             FROM reviews
-                                            WHERE item_id = @ItemId ";
+                                            WHERE item_id = @ItemId
+                                            LIMIT @Count 
+                                            OFFSET @Offset;";
 
-        const string paginationQuery = @"LIMIT @Count OFFSET @Offset;";
-
-        const string paginationResponseQuery = @"SELECT COUNT(1) AS Amount FROM reviews WHERE item_id = @ItemId";
-
-        var query = new StringBuilder(getReviewByIdQuery)
-            .Append(paginationQuery);
+        const string paginationResponseQuery = @"SELECT COUNT(1) Amount FROM reviews WHERE item_id = @ItemId";
         
         await using var connection = _dbConnectionFactory.CreateDatabase().Connection;
         await connection.OpenAsync(cancellationToken);
 
-        var result = await connection.QueryAsync<Review>(query.ToString(), new
+        var result = await connection.QueryAsync<Review>(getReviewByIdQuery, new
         {
             cmd.ItemId,
             cmd.Pagination.Count,
@@ -84,11 +84,11 @@ public class ReviewsRepository : IRepository
 
         await connection.ExecuteAsync(insertReviewByItemIdQuery, new
         {
-            Rate = (short) cmd.Review.Rating,
-            cmd.Review.ReviewTextCons,
-            cmd.Review.ReviewTextPros,
-            ReviewTextCommentary = cmd.Review.Commentary,
-            cmd.Review.UserId,
+            Rate = (short) cmd.Rating,
+            cmd.ReviewTextCons,
+            cmd.ReviewTextPros,
+            ReviewTextCommentary = cmd.Commentary,
+            cmd.UserId,
             cmd.ItemId
         });
     }

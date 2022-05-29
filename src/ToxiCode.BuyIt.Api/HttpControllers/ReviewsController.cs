@@ -4,6 +4,7 @@ using ToxiCode.BuyIt.Api.Dtos.Pagination;
 using ToxiCode.BuyIt.Api.Handlers.Reviews.AddReviewByItemId.Dtos;
 using ToxiCode.BuyIt.Api.Handlers.Reviews.GetReviewById.Dtos;
 using ToxiCode.BuyIt.Api.Handlers.Reviews.GetReviewsByItemId.Dtos;
+using ToxiCode.BuyIt.Api.Platform;
 
 namespace ToxiCode.BuyIt.Api.HttpControllers;
 
@@ -33,7 +34,8 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpPost("by-item-id/")]
-    public async Task<ActionResult> AddReview(AddReviewByItemIdCommand command)
+    [TokenAuthenticationFilter]
+    public async Task<ActionResult> AddReview([FromBody] AddReviewByItemIdCommand command)
     {
         await _mediator.Send(command);
         return Ok(); 

@@ -25,13 +25,13 @@ public class ItemsOrdersMigration : ForwardOnlyMigration
     private void MigrateItems()
     {
         Create.Table("items")
-            .WithColumn("id").AsInt64().PrimaryKey()
+            .WithColumn("id").AsInt64().PrimaryKey().Unique()
             .WithColumn("name").AsString().NotNullable()
             .WithColumn("description").AsString().NotNullable()
             .WithColumn("price").AsDecimal().NotNullable()
-            .WithColumn("owner").AsGuid().ForeignKey("users", "id").NotNullable()
-            .WithColumn("created_at").AsDateTime().WithDefault(SystemMethods.CurrentDateTime)
-            .WithColumn("last_updated").AsDateTime().Nullable()
+            .WithColumn("owner_id").AsGuid().NotNullable()
+            .WithColumn("created_at").AsDateTime().WithDefault(SystemMethods.CurrentUTCDateTime)
+            .WithColumn("updated_at").AsDateTime().Nullable()
             .WithColumn("deleted_at").AsDateTime().Nullable();
 
         Create.Table("items_images")
@@ -70,7 +70,8 @@ public class ItemsOrdersMigration : ForwardOnlyMigration
     {
         Create.Table("orders")
             .WithColumn("id").AsInt64().PrimaryKey()
-            .WithColumn("user_id").AsGuid().NotNullable();
+            .WithColumn("user_id").AsGuid().NotNullable()
+            .WithColumn("created_at").AsDateTime().WithDefault(SystemMethods.CurrentUTCDateTime);
         
         Execute.Sql("CREATE TYPE checkout_status AS ENUM('Created', 'Payed', 'Cancelled')");
 

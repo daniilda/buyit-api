@@ -1,8 +1,11 @@
-﻿namespace ToxiCode.BuyIt.Api.Contracts;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ToxiCode.BuyIt.Api.Contracts;
 
 public class KafkaMessage
 {
     public Action Action { get; set; }
-    
-    public CreatedItemNotification? CreatedItemNotification { get; set; }
+
+    [Required]
+    public string NotificationMessage { get; set; } = null!;
 }

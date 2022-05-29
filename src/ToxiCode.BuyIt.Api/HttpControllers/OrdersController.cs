@@ -1,5 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ToxiCode.BuyIt.Api.Handlers.Orders.PlaceOrder.Dtos;
+using ToxiCode.BuyIt.Api.Platform;
 
 namespace ToxiCode.BuyIt.Api.HttpControllers;
 
@@ -13,35 +15,32 @@ public class OrdersController : ControllerBase
         => _mediator = mediator;
 
     [HttpPost]
-    public async Task<IActionResult> PlaceOrder()
+    [TokenAuthenticationFilter]
+    public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrderCommand command)
     {
-        await Task.Delay(1);
-        return Ok();
-    }
-
-    [HttpPut("{id:long}")]
-    public async Task<IActionResult> UpdateOrder([FromRoute] long id)
-    {
-        await Task.Delay(1);
+        await _mediator.Send(command);
         return Ok();
     }
 
     [HttpDelete("{id:long}")]
-    public async Task<IActionResult> DeleteOrder([FromRoute] long id)
+    [TokenAuthenticationFilter]
+    public async Task<IActionResult> CancelOrder([FromRoute] long id)
     {
         await Task.Delay(1);
         return Ok();
     }
 
     [HttpGet("{id:long}")]
+    [TokenAuthenticationFilter]
     public async Task<IActionResult> GetOrder([FromRoute] long id)
     {
         await Task.Delay(1);
         return Ok();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetOrders()
+    [HttpGet("{userId:guid}")]
+    [TokenAuthenticationFilter]
+    public async Task<IActionResult> GetOrdersByUsedId([FromRoute] Guid userId)
     {
         await Task.Delay(1);
         return Ok();

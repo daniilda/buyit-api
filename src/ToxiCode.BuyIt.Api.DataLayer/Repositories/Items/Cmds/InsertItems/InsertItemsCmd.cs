@@ -4,5 +4,5 @@ namespace ToxiCode.BuyIt.Api.DataLayer.Repositories.Items.Cmds.InsertItems;
 
 public class InsertItemsCmd
 {
-    public Item[] Items { get; init; } = Array.Empty<Item>();
+    public IEnumerable<ItemToAdd> Items { get; init; } = Array.Empty<ItemToAdd>();
 }

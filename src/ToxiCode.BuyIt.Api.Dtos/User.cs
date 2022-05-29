@@ -10,5 +10,5 @@ public class User
     
     public DateTime RegistrationDate { get; set; }
 
-    public Picture ProfilePicture { get; set; } = null!;
+    public string ProfileImageUrl { get; set; } = null!;
 }
