@@ -16,28 +16,33 @@ public class AddItemHandler : AsyncRequestHandler<AddItemCommand>
     private readonly ImagesRepository _imagesRepository;
     private readonly LogisticsApiGrpcClient _client;
     private readonly IMapper _mapper;
+    private readonly IHttpContextAccessor _accessor;
 
     public AddItemHandler(
         ItemsRepository itemsRepository, 
         ImagesRepository imagesRepository, 
         IMapper mapper, 
-        LogisticsApiGrpcClient client)
+        LogisticsApiGrpcClient client,
+        IHttpContextAccessor accessor)
     {
         _itemsRepository = itemsRepository;
         _imagesRepository = imagesRepository;
         _mapper = mapper;
         _client = client;
+        _accessor = accessor;
     }
 
     protected override async Task Handle(AddItemCommand request, CancellationToken cancellationToken)
     {
+        var userId = _accessor.HttpContext!.Items["UserId"]!.ToString()!;
         var urls = await _imagesRepository.GetUrlsByImageIds(request.Images.ToArray(), cancellationToken);
         var addItem = _mapper.Map<Logistics.Api.Grpc.AddItem>(request);
+        addItem.SellerId = userId;
         addItem.ImgUrl = urls.FirstOrDefault();
 
         var grpcRequest = new AddItemRequest()
         {
-            AddItem = addItem
+            AddItem = addItem,
         };
         var grpcResult = await _client.AddItemsAsync(grpcRequest, cancellationToken);
 

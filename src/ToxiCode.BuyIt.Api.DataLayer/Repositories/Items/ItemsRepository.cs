@@ -35,7 +35,7 @@ public class ItemsRepository : IRepository
                                                INNER JOIN images i ON i.id = im.image_id
                                                WHERE im.item_id = @Id;";
 
-        const string getReviewRatingQuery = @"SELECT AVG(r.rate) Value, COUNT(1) ReviewCount 
+        const string getReviewRatingQuery = @"SELECT AVG(r.rate) ""Value"", COUNT(1) ReviewCount 
                                               FROM reviews r
                                               WHERE item_id = @Id";
 
@@ -74,7 +74,7 @@ public class ItemsRepository : IRepository
                                                INNER JOIN images i ON i.id = im.image_id
                                                WHERE im.item_id = @Id;";
 
-        const string getReviewRatingQuery = @"SELECT AVG(r.rate) Value, COUNT(1) ReviewCount 
+        const string getReviewRatingQuery = @"SELECT AVG(r.rate) ""Value"", COUNT(1) ReviewCount 
                                               FROM reviews r
                                               WHERE item_id = @Id";
 
@@ -126,7 +126,7 @@ public class ItemsRepository : IRepository
                                                INNER JOIN images i ON i.id = im.image_id
                                                WHERE im.item_id = @Id;";
 
-        const string getReviewRatingQuery = @"SELECT AVG(r.rate) Value, COUNT(1) ReviewCount 
+        const string getReviewRatingQuery = @"SELECT AVG(r.rate) ""Value"", COUNT(1) ReviewCount 
                                               FROM reviews r
                                               WHERE item_id = @Id";
 
@@ -170,7 +170,7 @@ public class ItemsRepository : IRepository
                                                INNER JOIN images i ON i.id = im.image_id
                                                WHERE item_id = @Id;";
 
-        const string getReviewRatingQuery = @"SELECT AVG(r.rate) Value, COUNT(1) ReviewCount 
+        const string getReviewRatingQuery = @"SELECT AVG(r.rate) ""Value"", COUNT(1) ReviewCount 
                                               FROM reviews r
                                               WHERE item_id = @Id;";
 
