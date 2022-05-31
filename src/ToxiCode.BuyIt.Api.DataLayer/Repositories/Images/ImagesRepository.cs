@@ -28,7 +28,7 @@ public class ImagesRepository : IRepository
     
     public async Task<IEnumerable<string>> GetUrlsByImageIds(Guid[] imageIds, CancellationToken cancellationToken)
     {
-        const string getItemPicturesQuery = @"SELECT i.url
+        const string getItemPicturesQuery = @"SELECT i.url FROM images i
                                                WHERE i.id = ANY(@Ids);";
         
         await using var connection = _dbConnectionFactory.CreateDatabase().Connection;
